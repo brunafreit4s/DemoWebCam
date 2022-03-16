@@ -12,7 +12,7 @@ namespace DemoWebCam.Models
     {
         [Key]
         public int ImageId { get; set; }
-        public string ImageBase64String { get; set; }
+        public string ImageBase64 { get; set; }
         public DateTime? CreateDate { get; set; }
     }
 }

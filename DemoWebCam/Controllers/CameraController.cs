@@ -3,12 +3,8 @@ using DemoWebCam.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DemoWebCam.Controllers
 {
@@ -100,18 +96,20 @@ namespace DemoWebCam.Controllers
                     //Converte a imagem em bites para string base 64
                     string base64String = Convert.ToBase64String(imageBytes, 0, imageBytes.Length);
                     string imageUrl = string.Concat("data:image/jpg;base64,", base64String);
+                    var tamanho = imageUrl.Length;
                     ImageStore imageStore = new ImageStore()
                     {
                         CreateDate = DateTime.Now,
-                        ImageBase64String = imageUrl,
+                        ImageBase64 = imageUrl,
                         ImageId = 0
                     };
                     _context.ImageStore.Add(imageStore);
                     _context.SaveChanges();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                var erro = ex.Message;
                 throw;
             }
         }
