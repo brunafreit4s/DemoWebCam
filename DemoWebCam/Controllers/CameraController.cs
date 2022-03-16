@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DemoWebCam.EntityStore;
+using DemoWebCam.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,9 +14,25 @@ namespace DemoWebCam.Controllers
 {
     public class CameraController : Controller
     {
+        private readonly DatabaseContext _context;
+        private readonly IHostingEnvironment _environment;
+
+        public CameraController(IHostingEnvironment hostingEnvironment, DatabaseContext context)
+        {
+            _environment = hostingEnvironment;
+            _context = context;
+        }
+
+        [HttpGet]
+        public IActionResult Capture()
+        {
+            return View();
+        }
+
         [HttpPost]
         public IActionResult Capture(string name)
         {
+            //Método de Captura da imagem 
             var files = HttpContext.Request.Form.Files;
             if (files != null)
             {
@@ -43,7 +63,6 @@ namespace DemoWebCam.Controllers
                             // Storing Image in Folder  
                             StoreInDatabase(imageBytes);
                         }
-
                     }
                 }
                 return Json(true);
@@ -55,7 +74,7 @@ namespace DemoWebCam.Controllers
         }
 
         /// <summary>  
-        /// Saving captured image into Folder.  
+        /// Salva a imagem capturada na pasta CameraPhotos. 
         /// </summary>  
         /// <param name="file"></param>  
         /// <param name="fileName"></param>  
@@ -69,7 +88,7 @@ namespace DemoWebCam.Controllers
         }
 
         /// <summary>  
-        /// Saving captured image into database.  
+        /// Salva a imagem capturada no banco de dados.
         /// </summary>  
         /// <param name="imageBytes"></param>  
         private void StoreInDatabase(byte[] imageBytes)
@@ -78,6 +97,7 @@ namespace DemoWebCam.Controllers
             {
                 if (imageBytes != null)
                 {
+                    //Converte a imagem em bites para string base 64
                     string base64String = Convert.ToBase64String(imageBytes, 0, imageBytes.Length);
                     string imageUrl = string.Concat("data:image/jpg;base64,", base64String);
                     ImageStore imageStore = new ImageStore()
@@ -96,3 +116,4 @@ namespace DemoWebCam.Controllers
             }
         }
     }
+}
