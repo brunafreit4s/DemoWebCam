@@ -8,7 +8,7 @@
   <pre>git clone https://github.com/brunafreit4s/DemoWebCam.git</pre>
   * Tenha em sua máquina o MySql instalado e configurado
   * Execute o arquivo no seu MySql encontrado na pasta:
-  <pre>https://github.com/brunafreit4s/DemoWebCam/blob/master/DemoWebCam/ScriptSql/001_SCRIPT_CREATE_DATABASE_WEBCAM.sql</pre>
+  <pre>https://github.com/brunafreit4s/DemoWebCam/tree/master/DemoWebCam/ScriptSql</pre>
 <hr>
 <p>
  <h3> Ferramentas necessárias:</h3>
